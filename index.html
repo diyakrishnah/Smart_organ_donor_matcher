@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Organ Donor Matching System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                        <h1>SmartMatch</h1>
+                        <span class="logo-subtitle">SMART ORGAN DONOR MATCHER</span>
+                    </div>
+                    <nav class="nav" id="main-nav" style="display: none;">
+                        <button class="nav-btn active" data-view="dashboard">Dashboard</button>
+                        <button class="nav-btn" data-view="matching">Smart Matching</button>
+                        <button class="nav-btn" data-view="donors">Donors</button>
+                        <button class="nav-btn" data-view="recipients">Recipients</button>
+                        <button class="nav-btn" data-view="analytics">Analytics</button>
+                        <button class="nav-btn" data-view="hospitals">Network</button>
+                    </nav>
+                    <div class="header-actions">
+                        <div class="emergency-alert" id="emergency-alert" style="display: none;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="12" y1="8" x2="12" y2="12"/>
+                                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                            </svg>
+                            <span id="emergency-count">0</span> Critical
+                        </div>
+                        <button id="logout-btn" class="btn btn-secondary" style="display: none;">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <div class="container">
+                <!-- User Type Selection -->
+                <section id="user-type-selection" class="view active">
+                    <div class="auth-container">
+                        <div class="auth-header">
+                            <h2>Smart Organ Donation  Matcher</h2>
+                            <p>Advanced organ matching and donation management</p>
+                        </div>
+                        
+                        <div class="user-type-grid">
+                            <div class="user-type-card" data-type="donor">
+                                <div class="user-type-icon donor">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                    </svg>
+                                </div>
+                                <h3>Organ Donor</h3>
+                                <p>Register to save lives through organ and tissue donation</p>
+                                <div class="card-stats">
+                                    <span class="stat-item">
+                                        <strong id="donor-count">0</strong> Active Donors
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="user-type-card" data-type="recipient">
+                                <div class="user-type-icon recipient">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="9" cy="7" r="4"/>
+                                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                                    </svg>
+                                </div>
+                                <h3>Organ Recipient</h3>
+                                <p>Find compatible donors through our matching system</p>
+                                <div class="card-stats">
+                                    <span class="stat-item">
+                                        <strong id="recipient-count">0</strong> Waiting List
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="user-type-card" data-type="doctor">
+                                <div class="user-type-icon doctor">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 3h18v18H3zM12 8v8m-4-4h8"/>
+                                    </svg>
+                                </div>
+                                <h3>Medical Professional</h3>
+                                <p>Access advanced matching tools and patient management</p>
+                                <div class="card-stats">
+                                    <span class="stat-item">
+                                        <strong id="match-success">0%</strong> Success Rate
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="user-type-card" data-type="hospital">
+                                <div class="user-type-icon hospital">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M2 3h20l-2 14H4L2 3z"/>
+                                        <path d="M6 6h12"/>
+                                        <path d="M9 10h6"/>
+                                    </svg>
+                                </div>
+                                <h3>Hospital Network</h3>
+                                <p>Coordinate transplant programs and resource allocation</p>
+                                <div class="card-stats">
+                                    <span class="stat-item">
+                                        <strong id="hospital-count">0</strong> Partner Hospitals
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Registration Form -->
+                <section id="registration-view" class="view">
+                    <div class="auth-container">
+                        <div class="auth-header">
+                            <button id="back-to-selection" class="back-btn">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                                </svg>
+                                Back
+                            </button>
+                            <h2 id="registration-title">Register as Donor</h2>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="progress-fill"></div>
+                            </div>
+                            <p class="progress-text">Step <span id="current-step">1</span> of <span id="total-steps">6</span></p>
+                        </div>
+
+                        <form id="registration-form" class="registration-form">
+                            <!-- Step 1: Basic Information -->
+                            <div class="form-step active" data-step="1">
+                                <h3>Personal Information</h3>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="full-name">Full Name*</label>
+                                        <input type="text" id="full-name" name="fullName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="age">Age*</label>
+                                        <input type="number" id="age" name="age" min="1" max="100" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="gender">Gender*</label>
+                                        <select id="gender" name="gender" required>
+                                            <option value="">Select Gender</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="blood-group">Blood Group*</label>
+                                        <select id="blood-group" name="bloodGroup" required>
+                                            <option value="">Select Blood Group</option>
+                                            <option value="A+">A+</option>
+                                            <option value="A-">A-</option>
+                                            <option value="B+">B+</option>
+                                            <option value="B-">B-</option>
+                                            <option value="AB+">AB+</option>
+                                            <option value="AB-">AB-</option>
+                                            <option value="O+">O+</option>
+                                            <option value="O-">O-</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="weight">Weight (kg)*</label>
+                                        <input type="number" id="weight" name="weight" min="30" max="200" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="height">Height (cm)*</label>
+                                        <input type="number" id="height" name="height" min="100" max="250" required>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="contact">Contact Number*</label>
+                                        <input type="tel" id="contact" name="contact" required>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="email">Email Address</label>
+                                        <input type="email" id="email" name="email">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Address & Verification -->
+                            <div class="form-step" data-step="2">
+                                <h3>Address & Identity Verification</h3>
+                                <div class="form-grid">
+                                    <div class="form-group full-width">
+                                        <label for="address">Complete Address*</label>
+                                        <textarea id="address" name="address" rows="3" required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="city">City*</label>
+                                        <input type="text" id="city" name="city" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="state">State*</label>
+                                        <input type="text" id="state" name="state" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="pincode">Pincode*</label>
+                                        <input type="text" id="pincode" name="pincode" pattern="[0-9]{6}" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="aadhar">Aadhar Number*</label>
+                                        <input type="text" id="aadhar" name="aadhar" pattern="[0-9]{12}" required>
+                                        <small class="form-help">For identity verification and fraud prevention</small>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nationality">Nationality*</label>
+                                        <select id="nationality" name="nationality" required>
+                                            <option value="">Select Nationality</option>
+                                            <option value="indian">Indian</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 3: Medical Information -->
+                            <div class="form-step" data-step="3">
+                                <h3>Medical Information & Health Status</h3>
+                                
+                                <!-- Donor Status -->
+                                <div class="donor-only">
+                                    <div class="form-group">
+                                        <label for="donor-status">Donor Status*</label>
+                                        <select id="donor-status" name="donorStatus" required>
+                                            <option value="">Select Status</option>
+                                            <option value="living">Living Donor</option>
+                                            <option value="deceased">Died Donor</option>
+                                            <option value="diseased">Diseased (Organs Available)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Deceased/Diseased Donor Details -->
+                                <div class="deceased-details" style="display: none;">
+                                    <div class="alert alert-critical">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="10"/>
+                                            <line x1="12" y1="8" x2="12" y2="12"/>
+                                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                                        </svg>
+                                        <div>
+                                            <h4>Time-Critical Information Required</h4>
+                                            <p>Organ viability depends on time since death. Please provide accurate information.</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="time-of-death">Hours Since Death*</label>
+                                            <input type="number" id="time-of-death" name="timeSinceDeath" min="0" max="72" step="0.5">
+                                            <small class="form-help">Critical for organ viability assessment</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cause-of-death">Cause of Death</label>
+                                            <select id="cause-of-death" name="causeOfDeath">
+                                                <option value="">Select Cause</option>
+                                                <option value="brain-death">Brain Death</option>
+                                                <option value="cardiac-arrest">Cardiac Arrest</option>
+                                                <option value="accident">Accident</option>
+                                                <option value="natural">Natural Causes</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="family-consent">Family Consent*</label>
+                                            <select id="family-consent" name="familyConsent">
+                                                <option value="">Select Status</option>
+                                                <option value="yes">Yes, Consent Given</option>
+                                                <option value="no">No Consent</option>
+                                                <option value="pending">Pending Approval</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="family-contact">Family Member Contact*</label>
+                                            <input type="tel" id="family-contact" name="familyContact">
+                                        </div>
+                                        <div class="form-group full-width">
+                                            <label for="family-relation">Relationship to Deceased*</label>
+                                            <input type="text" id="family-relation" name="familyRelation" placeholder="e.g., Spouse, Parent, Child">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-grid">
+                                    <div class="form-group full-width">
+                                        <label for="health-conditions">Current Health Conditions</label>
+                                        <textarea id="health-conditions" name="healthConditions" rows="3" placeholder="List any medical conditions, allergies, medications, etc."></textarea>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="medical-history">Medical History</label>
+                                        <textarea id="medical-history" name="medicalHistory" rows="3" placeholder="Previous surgeries, chronic conditions, family history, etc."></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="smoking-status">Smoking Status</label>
+                                        <select id="smoking-status" name="smokingStatus">
+                                            <option value="">Select Status</option>
+                                            <option value="never">Never Smoked</option>
+                                            <option value="former">Former Smoker</option>
+                                            <option value="current">Current Smoker</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="alcohol-status">Alcohol Consumption</label>
+                                        <select id="alcohol-status" name="alcoholStatus">
+                                            <option value="">Select Status</option>
+                                            <option value="never">Never</option>
+                                            <option value="occasional">Occasional</option>
+                                            <option value="regular">Regular</option>
+                                            <option value="heavy">Heavy</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 4: Organ Selection -->
+                            <div class="form-step" data-step="4">
+                                <h3 id="organ-selection-title">Organ Donation Preferences</h3>
+                                
+                                <div class="organ-categories">
+                                    <!-- Vital Organs -->
+                                    <div class="organ-category">
+                                        <h4>Vital Organs</h4>
+                                        <div class="organ-grid">
+                                            <label class="organ-item vital">
+                                                <input type="checkbox" name="organs" value="heart">
+                                                <div class="organ-card">
+                                                    <div class="organ-icon">❤️</div>
+                                                    <span class="organ-name">Heart</span>
+                                                    <span class="organ-viability">4 hours</span>
+                                                </div>
+                                            </label>
+                                            <label class="organ-item vital">
+                                                <input type="checkbox" name="organs" value="liver">
+                                                <div class="organ-card">
+                                                    <div class="organ-icon">🫀</div>
+                                                    <span class="organ-name">Liver</span>
+                                                    <span class="organ-viability">12 hours</span>
+                                                </div>
+                                            </label>
+                                            <label class="organ-item vital">
+                                                <input type="checkbox" name="organs" value="kidney">
+                                                <div class="organ-card">
+                                                    <div class="organ-icon">🫘</div>
+                                                    <span class="organ-name">Kidneys</span>
+                                                    <span class="organ-viability">24 hours</span>
+                                                </div>
+                                            </label>
+                                            <label class="organ-item vital">
+                                                <input type="checkbox" name="organs" value="lungs">
+                                                <div class="organ-card">
+                                                    <div class="organ-icon">🫁</div>
+                                                    <span class="organ-name">Lungs</span>
+                                                    <span class="organ-viability">6 hours</span>
+                                                </div>
+                                            </label>
+                                            <label class="organ-item vital">
+                                                <input type="checkbox" name="organs" value="pancreas">
+                                                <div class="organ-card">
+                                                    <div class="organ-icon">🥞</div>
+                                                    <span class="organ-name">Pancreas</span>
+                                                    <span class="organ-viability">12 hours</span>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Tissues -->
+                                    <div class="organ-category">
+                                        <h4>Tissues & Other</h4>
+                                        <div class="organ-grid">
+                                            <label class="organ-item tissue">
+                                                <input type="checkbox" name="organs" value="corneas">
+                                                <div class="organ-card">
+                                                    <div class="organ-icon">👁️</div>
+                                                    <span class="organ-name">Corneas</span>
+                                                    <span class="organ-viability">24 hours</span>
+                                                </div>
+                                            </label>
+                                            <label class="organ-item tissue">
+                                                <input type="checkbox" name="organs" value="skin">
+                                                <div class="organ-card">
+                                                    <div class="organ-icon">🤲</div>
+                                                    <span class="organ-name">Skin</span>
+                                                    <span class="organ-viability">24 hours</span>
+                                                </div>
+                                            </label>
+                                            <label class="organ-item tissue">
+                                                <input type="checkbox" name="organs" value="bone">
+                                                <div class="organ-card">
+                                                    <div class="organ-icon">🦴</div>
+                                                    <span class="organ-name">Bone</span>
+                                                    <span class="organ-viability">24 hours</span>
+                                                </div>
+                                            </label>
+                                            <label class="organ-item tissue">
+                                                <input type="checkbox" name="organs" value="blood-vessels">
+                                                <div class="organ-card">
+                                                    <div class="organ-icon">🩸</div>
+                                                    <span class="organ-name">Blood Vessels</span>
+                                                    <span class="organ-viability">24 hours</span>
+                                                </div>
+                                            </label>
+                                            <label class="organ-item tissue">
+                                                <input type="checkbox" name="organs" value="bone-marrow">
+                                                <div class="organ-card">
+                                                    <div class="organ-icon">🦴</div>
+                                                    <span class="organ-name">Bone Marrow</span>
+                                                    <span class="organ-viability">Living only</span>
+                                                </div>
+                                            </label>
+                                            <label class="organ-item tissue female-only">
+                                                <input type="checkbox" name="organs" value="ovaries">
+                                                <div class="organ-card">
+                                                    <div class="organ-icon">🥚</div>
+                                                    <span class="organ-name">Ovaries</span>
+                                                    <span class="organ-viability">6 hours</span>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- Blood Donation -->
+                                    <div class="organ-category">
+                                        <h4>Blood Donation</h4>
+                                        <label class="blood-donation-item">
+                                            <input type="checkbox" name="bloodDonation" value="yes">
+                                            <div class="blood-card">
+                                                <div class="blood-icon">🩸</div>
+                                                <div class="blood-content">
+                                                    <span class="blood-title">Available for Blood Donation</span>
+                                                    <span class="blood-subtitle" id="blood-type-display">Blood Type: Not Selected</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label for="organ-conditions">Organ-Specific Health Notes</label>
+                                    <textarea id="organ-conditions" name="organConditions" rows="3" placeholder="Any conditions affecting specific organs (e.g., liver function, heart condition, etc.)"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Step 5: Medical Contacts -->
+                            <div class="form-step" data-step="5">
+                                <h3>Medical Contacts & Hospital Information</h3>
+                                
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="primary-doctor">Primary Doctor Name</label>
+                                        <input type="text" id="primary-doctor" name="primaryDoctor">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="doctor-contact">Doctor's Contact</label>
+                                        <input type="tel" id="doctor-contact" name="doctorContact">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="doctor-specialization">Doctor's Specialization</label>
+                                        <input type="text" id="doctor-specialization" name="doctorSpecialization">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hospital-name">Associated Hospital*</label>
+                                        <input type="text" id="hospital-name" name="hospitalName" required>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label for="hospital-address">Hospital Address*</label>
+                                        <textarea id="hospital-address" name="hospitalAddress" rows="2" required></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="hospital-contact">Hospital Contact</label>
+                                        <input type="tel" id="hospital-contact" name="hospitalContact">
+                                    </div>
+                                </div>
+
+                                <div class="emergency-contact">
+                                    <h4>Emergency Contact Information</h4>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="emergency-name">Contact Name*</label>
+                                            <input type="text" id="emergency-name" name="emergencyName" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="emergency-relation">Relationship*</label>
+                                            <select id="emergency-relation" name="emergencyRelation" required>
+                                                <option value="">Select Relationship</option>
+                                                <option value="spouse">Spouse</option>
+                                                <option value="parent">Parent</option>
+                                                <option value="child">Child</option>
+                                                <option value="sibling">Sibling</option>
+                                                <option value="friend">Friend</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="emergency-phone">Phone Number*</label>
+                                            <input type="tel" id="emergency-phone" name="emergencyPhone" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="emergency-email">Email Address</label>
+                                            <input type="email" id="emergency-email" name="emergencyEmail">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Step 6: Privacy & Consent -->
+                            <div class="form-step" data-step="6">
+                                <h3>Privacy Settings & Final Consent</h3>
+                                
+                                <div class="privacy-section">
+                                    <h4>Privacy Preferences</h4>
+                                    <div class="privacy-options">
+                                        <label class="privacy-item">
+                                            <input type="checkbox" name="anonymousDonation" value="yes">
+                                            <div class="privacy-content">
+                                                <span class="privacy-title">Anonymous Donation</span>
+                                                <span class="privacy-description">Keep my identity private from recipients</span>
+                                            </div>
+                                        </label>
+                                        <label class="privacy-item">
+                                            <input type="checkbox" name="shareContact" value="yes" checked>
+                                            <div class="privacy-content">
+                                                <span class="privacy-title">Medical Contact Sharing</span>
+                                                <span class="privacy-description">Allow medical professionals to access my contact details</span>
+                                            </div>
+                                        </label>
+                                        <label class="privacy-item">
+                                            <input type="checkbox" name="researchConsent" value="yes">
+                                            <div class="privacy-content">
+                                                <span class="privacy-title">Research Participation</span>
+                                                <span class="privacy-description">Allow anonymized data to be used for medical research</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="consent-section">
+                                    <h4>Legal Consent & Terms</h4>
+                                    <div class="consent-items">
+                                        <label class="consent-item required">
+                                            <input type="checkbox" name="legalConsent" value="yes" required>
+                                            <div class="consent-content">
+                                                <span class="consent-title">Legal Consent for Organ Donation</span>
+                                                <span class="consent-description">I hereby give my consent for organ donation as per the Transplantation of Human Organs Act</span>
+                                            </div>
+                                        </label>
+                                        <label class="consent-item required">
+                                            <input type="checkbox" name="dataConsent" value="yes" required>
+                                            <div class="consent-content">
+                                                <span class="consent-title">Data Processing Consent</span>
+                                                <span class="consent-description">I consent to the processing of my medical data for donation matching purposes</span>
+                                            </div>
+                                        </label>
+                                        <label class="consent-item required">
+                                            <input type="checkbox" name="accuracyConfirmation" value="yes" required>
+                                            <div class="consent-content">
+                                                <span class="consent-title">Information Accuracy</span>
+                                                <span class="consent-description">I confirm that all information provided is accurate and complete to the best of my knowledge</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="final-summary">
+                                    <h4>Registration Summary</h4>
+                                    <div id="registration-summary" class="summary-content">
+                                        <!-- Summary will be populated by JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Form Navigation -->
+                            <div class="form-navigation">
+                                <button type="button" id="prev-step" class="btn btn-secondary" style="display: none;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                                    </svg>
+                                    Previous
+                                </button>
+                                <button type="button" id="next-step" class="btn btn-primary">
+                                    Next
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                                    </svg>
+                                </button>
+                                <button type="submit" id="submit-form" class="btn btn-success" style="display: none;">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20 6L9 17l-5-5"/>
+                                    </svg>
+                                    Complete Registration
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- Dashboard View -->
+                <section id="dashboard-view" class="view">
+                    <div class="view-header">
+                        <div>
+                            <h2>SmartMatch Dashboard</h2>
+                            <p class="view-subtitle">Welcome back, <span id="user-name">User</span></p>
+                        </div>
+                        <div class="user-status">
+                            <span class="status-badge" id="user-status">Active</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card urgent">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <line x1="12" y1="8" x2="12" y2="12"/>
+                                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="critical-matches">0</h3>
+                                <p>Critical Matches</p>
+                                <span class="stat-change positive">+2 today</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card success">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="match-score">98%</h3>
+                                <p>AI Match Accuracy</p>
+                                <span class="stat-change positive">+1.2% this week</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card primary">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="active-users">0</h3>
+                                <p>Active Users</p>
+                                <span class="stat-change positive">+15 this month</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-card warning">
+                            <div class="stat-icon">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <polyline points="12,6 12,12 16,14"/>
+                                </svg>
+                            </div>
+                            <div class="stat-content">
+                                <h3 id="avg-wait-time">4.2</h3>
+                                <p>Avg Wait Time (days)</p>
+                                <span class="stat-change negative">-0.8 days</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-content">
+                        <div class="dashboard-grid">
+                            <div class="dashboard-card">
+                                <div class="card-header">
+                                    <h3>Recent Matches</h3>
+                                    <button class="btn btn-sm btn-primary">View All</button>
+                                </div>
+                                <div id="recent-matches" class="matches-list">
+                                    <!-- Matches will be populated by JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <div class="dashboard-card">
+                                <div class="card-header">
+                                    <h3>Critical Alerts</h3>
+                                    <span class="alert-count" id="alert-count">0</span>
+                                </div>
+                                <div id="critical-alerts" class="alerts-list">
+                                    <!-- Alerts will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Smart Matching View -->
+                <section id="matching-view" class="view">
+                    <div class="view-header">
+                        <h2>Smart Matching Engine</h2>
+                        <div class="matching-controls">
+                            <button class="btn btn-secondary" id="refresh-matches">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polyline points="23,4 23,10 17,10"/>
+                                    <path d="M20.49,15a9,9,0,1,1-2.12-9.36L23,10"/>
+                                </svg>
+                                Refresh
+                            </button>
+                            <button class="btn btn-primary" id="run-matching">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="5,3 19,12 5,21"/>
+                                </svg>
+                                Run AI Matching
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="matching-filters">
+                        <div class="filter-group">
+                            <label>Organ Type</label>
+                            <select id="organ-filter">
+                                <option value="">All Organs</option>
+                                <option value="heart">Heart</option>
+                                <option value="liver">Liver</option>
+                                <option value="kidney">Kidney</option>
+                                <option value="lungs">Lungs</option>
+                                <option value="pancreas">Pancreas</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Blood Group</label>
+                            <select id="blood-filter">
+                                <option value="">All Blood Groups</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Priority</label>
+                            <select id="priority-filter">
+                                <option value="">All Priorities</option>
+                                <option value="critical">Critical</option>
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Location</label>
+                            <input type="text" id="location-filter" placeholder="City or State">
+                        </div>
+                    </div>
+
+                    <div class="matching-results" id="matching-results">
+                        <!-- Matching results will be populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Other views (simplified for brevity) -->
+                <section id="donors-view" class="view">
+                    <div class="view-header">
+                        <h2>Donor Management</h2>
+                        <button class="btn btn-primary">Add Donor</button>
+                    </div>
+                    <div class="donors-container" id="donors-container">
+                        <!-- Donors will be populated by JavaScript -->
+                    </div>
+                </section>
+
+                <section id="recipients-view" class="view">
+                    <div class="view-header">
+                        <h2>Recipient Management</h2>
+                        <button class="btn btn-primary">Add Recipient</button>
+                    </div>
+                    <div class="recipients-container" id="recipients-container">
+                        <!-- Recipients will be populated by JavaScript -->
+                    </div>
+                </section>
+
+                <section id="analytics-view" class="view">
+                    <div class="view-header">
+                        <h2>Analytics & Insights</h2>
+                    </div>
+                    <div class="analytics-container">
+                        <div class="empty-state">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <line x1="18" y1="20" x2="18" y2="10"/>
+                                <line x1="12" y1="20" x2="12" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="14"/>
+                            </svg>
+                            <h3>Analytics Dashboard</h3>
+                            <p>Comprehensive insights and reporting tools</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="hospitals-view" class="view">
+                    <div class="view-header">
+                        <h2>Hospital Network</h2>
+                        <button class="btn btn-primary">Add Hospital</button>
+                    </div>
+                    <div class="hospitals-container">
+                        <div class="empty-state">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M2 3h20l-2 14H4L2 3z"/>
+                                <path d="M6 6h12"/>
+                                <path d="M9 10h6"/>
+                            </svg>
+                            <h3>Partner Hospitals</h3>
+                            <p>Network of certified transplant centers</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
